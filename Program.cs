@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -93,10 +94,11 @@ namespace HttpClientExample
 
                 var de_result = JsonSerializer.Deserialize<GraphQLResponse>(result, options);
 
-                Console.WriteLine("Sales Order Details\n--------------------");
+                
 
                 foreach (var item in de_result.Data.ProductWithSalesOrder)
                 {
+                    Console.WriteLine("Sales Order Details\n--------------------");
                     Console.WriteLine($"SalesOrderDetailId: {item.SalesOrderDetailId}");
                     Console.WriteLine($"Product ID         : {item.ProductId}");
                     Console.WriteLine($"Product Name       : {item.Product.Name}");
@@ -107,6 +109,9 @@ namespace HttpClientExample
                     Console.WriteLine($"Row GUID           : {item.Rowguid}");
                     Console.WriteLine(new string('-', 60));
                 }
+
+                if (de_result.Data.ProductWithSalesOrder.Count == 0)
+                    Console.WriteLine("No result found for given sales order id");
 
                 //Console.WriteLine(result);
                 Console.ReadLine();
